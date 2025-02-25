@@ -7,6 +7,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -18,7 +19,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackages = "in.exploretech.logasup",
+        basePackages = "in.exploretech.logasup.repository",
         entityManagerFactoryRef = "companyExploreTechEntityManagerFactory",
         transactionManagerRef = "companyExploreTechTransactionManager"
 )
@@ -65,8 +66,15 @@ public class CompanyExploreTechDatasource {
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.SQLServerDialect");
         properties.setProperty("hibernate.show_sql", "true");
         properties.setProperty("hibernate.format_sql", "true");
+        properties.setProperty("hibernate.hbm2ddl.auto", "update"); // Add this line
         return properties;
     }
 
 
+    // Add this inside CompanyExploreTechDatasource class
+    @Bean(name = "companyExploreTechJdbcTemplate")
+    public JdbcTemplate companyExploreTechJdbcTemplate(
+            @Qualifier("companyExploreTechDataSource") DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }
 }

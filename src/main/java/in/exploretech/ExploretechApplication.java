@@ -5,7 +5,7 @@ import in.exploretech.config.ExternalConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"in.exploretech", "dataman.dmbase.documentutil"})
 public class ExploretechApplication {
 
 	public static void main(String[] args) {

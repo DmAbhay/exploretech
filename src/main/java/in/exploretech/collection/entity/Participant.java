@@ -1,4 +1,4 @@
-package in.exploretech.logasup.entity;
+package in.exploretech.collection.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,24 +9,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserMast {
-
+@Entity
+public class Participant {
     @Id
     @GeneratedValue(generator = "exploreTechIdGenerator")
-    @GenericGenerator(name = "exploreTechIdGenerator", strategy = "in.exploretech.util.GenerateIdForUserMast")
+    @GenericGenerator(name = "exploreTechIdGenerator", strategy = "in.exploretech.util.GenerateIdForParticipant")
     private String id;
 
     @Column(unique = true) // Ensures the username is unique in the table
     private String username;
     private String password;
-
-
-
+    private Integer age;
+    private String gender;
+    private String address;
+    private String email;
 }
