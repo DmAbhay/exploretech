@@ -151,7 +151,7 @@ public class ExploretechTransactionDatasourceConfig {
                 externalConfig.getSqlPassword()
         );
 
-        String sqlQuery = "SELECT centralDataPath FROM projectMaster WHERE projectId = 10002;";
+        String sqlQuery = "SELECT centralDataPath FROM projectMaster WHERE projectId = 10001;";
         String columnName = "centralDataPath";
         String databaseName = fetcher.getDatabaseName(sqlQuery, columnName);
 
@@ -200,4 +200,3 @@ public class ExploretechTransactionDatasourceConfig {
         return new JdbcTemplate(exploretechTransactionDataSource);
     }
 }
-
