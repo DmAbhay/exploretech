@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.security.*;
@@ -19,6 +20,9 @@ public class JwtTokenUtil {
     // Get public key for token verification
     @Getter
     private final PublicKey publicKey;
+
+    @Autowired
+    private SseController sseController;
 
     // Constructor to initialize ECDSA keys
     public JwtTokenUtil() {
@@ -39,7 +43,7 @@ public class JwtTokenUtil {
     public String generateToken(String username) {
         String sessionId = UUID.randomUUID().toString(); // Generate unique session ID
 
-        return Jwts.builder()
+        String token = Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 3600000)) // 1 hour expiration
@@ -47,6 +51,9 @@ public class JwtTokenUtil {
                 .claim("name", "krishna")
                 .signWith(privateKey, SignatureAlgorithm.ES512) // Sign with private key using ECDSA (secp521r1 curve)
                 .compact();
+
+        sseController.notifyTokenUpdate(username.toLowerCase());
+        return token;
     }
 
     // Validate if the token is expired
